@@ -7,8 +7,7 @@
 -- You should use attributes formed and split for computing the lifespan
 -- Your script can be executed on any database
 
-SELECT band_name, 
-       YEAR(2022) - SUBSTRING_INDEX(attributes, 'formed ', -1) AS lifespan
+SELECT band_name, (IFNULL(split, '2022') - formed) AS lifespan
     FROM metal_bands
-    WHERE main_style = 'Glam rock'
+    WHERE FIND_IN_SET('Glam rock', IFNULL(style, "")) > 0
     ORDER BY lifespan DESC;
